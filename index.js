@@ -6,7 +6,8 @@ export default {
         "seppe.vanderbeeck@gmail.com",
         "Akramelsayed.aes@gmail.com",
         "Quinten.deboeck@outlook.be"
-      ]
+      ],
+      "voorzitter@trogvzw.com":"Quinten.deboeck@outlook.be"
     };
 
     const extractAddress = (email) => {
@@ -25,7 +26,10 @@ export default {
       await Promise.all(addressArray.map(address => message.forward(address)));
     };
 
-
+if (!isAllowed(message.to)) {
+  message.setReject(`Address \`${message.to}\` doesn't exist`);
+  return;
+}
 
     const addresses = forwardList[extractAddress(message.to)];
     await forward(addresses);
